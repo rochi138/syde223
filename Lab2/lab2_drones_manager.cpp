@@ -285,33 +285,28 @@ bool DronesManagerSorted::insert_sorted_asc(DroneRecord val) {
     if (last->droneID <= val.droneID)
         return (insert_back(val));
     DroneRecord* before = first;
+    unsigned int index = 0;
     while(before != NULL && before->droneID < val.droneID){
         before = before->next;
+        index++;
     }
-    return insert(val, search(*before));
+    return insert(val, index);
 }
 
 bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
     if (!is_sorted_desc())
         return false;
-    if (first == NULL || first->droneID >= val.droneID)
+    if (first == NULL || first->droneID <= val.droneID)
         return (insert_front(val));
-    if (last->droneID <= val.droneID)
+    if (last->droneID >= val.droneID)
         return (insert_back(val));
-    DroneRecord* before = last;
-    bool placed = false;
-    while(before != NULL){
-        if (before->droneID >= val.droneID){
-            before->next->prev = new DroneRecord(val);
-            before->next->prev->next = before->next;
-            before->next->prev->prev = before;
-            before->next = before->next->prev;
-            size++;
-            return true;
-        }
-        before = before->prev;
+    DroneRecord* after = first;
+    unsigned int index = 0;
+    while(after != NULL && after->droneID > val.droneID){
+        after = after->next;
+        index++;
     }
-    return false;
+    return insert(val, index);
 }
 
 void DronesManagerSorted::sort_asc() {

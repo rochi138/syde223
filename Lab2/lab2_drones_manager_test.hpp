@@ -291,10 +291,18 @@ public:
     bool test11() {
         DronesManagerSorted manager1, manager2;
         
+        ASSERT_TRUE(manager1.is_sorted_asc());
+        
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(1)));
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(2)));
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(4)));
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(5)));
+        
+        ASSERT_TRUE(manager1.is_sorted_asc());
+        //ASSERT_TRUE(manager1.insert_front(8));
+        //ASSERT_FALSE(manager1.is_sorted_asc());
+        //manager1.sort_asc();
+        ASSERT_TRUE(manager1.is_sorted_asc());
         
         ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(0)));
         ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(0)));
@@ -313,9 +321,6 @@ public:
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(6)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(3)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(0)));
-        
-        manager1.print();
-        manager2.print();
         
         return true;
     }
