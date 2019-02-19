@@ -1,3 +1,7 @@
+// Lab 2
+// Chris Staykov 20717876
+// Robyn Ching 20719829
+
 #include "lab2_drones_manager.hpp"
 
 // TODO: Implement all of the listed functions below
@@ -272,7 +276,7 @@ bool DronesManagerSorted::is_sorted_desc() const {
     while (current != NULL){
         if (current->next->droneID > current->droneID)
             return false;
-        current = current->next;
+        current = current->prev;
     }
     return true;
 }
@@ -310,70 +314,58 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
 }
 
 void DronesManagerSorted::sort_asc() {
-    if (first == NULL)
+    if (first == NULL || size == 1)
         return;
-    if (size == 1)
-        return;
-    DroneRecord* subfirst = first;
+    bool swapped;
     DroneRecord* current;
-    DroneRecord* min;
-    while (subfirst->next != NULL){
-        current = first->next;
-        min = subfirst;
-        while (current != NULL){
-            if (min->droneID < current->droneID)
-                min = current;
-            current = current->next;
+    DroneRecord* toSwap;
+    DroneRecord* beforeCurrent;
+    DroneRecord* afterToSwap;
+    DroneRecord* lastToCheck = NULL;
+    
+    do {
+        swapped = false;
+        current = first;
+        
+        while (current->next != lastToCheck)
+        {
+            if (current->droneID > current->next->droneID)
+            {
+                
+                beforeCurrent = current->prev;
+                toSwap = current->next;
+                afterToSwap = toSwap->next;
+                
+                current->prev = toSwap;
+                current->next = afterToSwap;
+                
+                toSwap->next = current;
+                toSwap->prev = beforeCurrent;
+                
+                if (beforeCurrent) {
+                    beforeCurrent->next = toSwap;
+                } else {
+                    first = toSwap;
+                }
+                
+                if (afterToSwap) {
+                    afterToSwap->prev = current;
+                } else {
+                    last = current;
+                }
+                
+                swapped = true;
+            } else {
+                current = current->next;
+            }
         }
-        if (subfirst == first){
-            if (min != first)
-                min->prev->next = min->next;
-            else
-                first = min->next;
-        } else
-            subfirst->prev->next = min;
-        if (min != last)
-            min->next->prev = min->prev;
-        else
-            last = min->prev;
-        min->prev = subfirst->prev;
-        min->next = subfirst;
-        subfirst->prev = min;
-        subfirst = subfirst->next;
+        lastToCheck = current;
     }
+    while (swapped);
 }
 
 void DronesManagerSorted::sort_desc() {
-    if (first == NULL)
-        return;
-    if (size == 1)
-        return;
-    DroneRecord* subfirst = first;
-    DroneRecord* current;
-    DroneRecord* max;
-    while (subfirst->next != NULL){
-        current = first->next;
-        max = subfirst;
-        while (current != NULL){
-            if (max->droneID < current->droneID)
-                max = current;
-            current = current->next;
-        }
-        if (subfirst == first){
-            if (max != first)
-                max->prev->next = max->next;
-            else
-                first = max->next;
-        } else
-            subfirst->prev->next = max;
-        if (max != last)
-            max->next->prev = max->prev;
-        else
-            last = max->prev;
-        max->prev = subfirst->prev;
-        max->next = subfirst;
-        subfirst->prev = max;
-        subfirst = subfirst->next;
-    }
+    sort_asc();
+    reverse_list();
+    return;
 }
-

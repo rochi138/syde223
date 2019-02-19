@@ -1,3 +1,7 @@
+// Lab 2
+// Chris Staykov 20717876
+// Robyn Ching 20719829
+
 #include "lab2_drones_manager_test.hpp"
 
 string get_status_str(bool status) {
@@ -41,5 +45,4 @@ int main() {
     for (int index = 0; index < 12; ++index) {
         cout << test_descriptions[index] << endl << get_status_str(test_results[index]) << endl;
     }
-    /// system("pause");
 }

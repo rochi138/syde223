@@ -1,3 +1,7 @@
+// Lab 2
+// Chris Staykov 20717876
+// Robyn Ching 20719829
+
 #ifndef DRONES_MANAGER_HPP
 #define DRONES_MANAGER_HPP
 #include <iostream>
@@ -49,9 +53,9 @@ protected:
     unsigned int size;
     
     // copy constructor; not to be used for this assignment
-    /// DronesManager(const DronesManager& rhs) { }
+    DronesManager(const DronesManager& rhs);
     // assignment operator; not to be used for this assignment
-    /// DronesManager& operator=(const DronesManager& rhs) { }
+    DronesManager& operator=(const DronesManager& rhs);
     
 public:
     // EXPLICIT CONSTRUCTOR AND DESTRUCTOR

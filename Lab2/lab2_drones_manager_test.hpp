@@ -1,3 +1,7 @@
+// Lab 2
+// Chris Staykov 20717876
+// Robyn Ching 20719829
+
 #ifndef DRONES_MANAGER_TEST
 #define DRONES_MANAGER_TEST
 
@@ -284,13 +288,35 @@ public:
     // PURPOSE: insert into an unsorted list, then sort the list
     bool test10() {
         
-        return false;
+        DronesManagerSorted manager;
+        const int num_elems = 50;
+        for (int i = 0; i < num_elems; i++) {
+            ASSERT_TRUE(manager.insert_back(DronesManager::DroneRecord(rand()%1001)))
+        }
+        
+        manager.sort_asc();
+        ASSERT_TRUE(manager.is_sorted_asc());
+        
+        for (int i = 0; i < num_elems - 1; i++) {
+            ASSERT_TRUE(manager.select(i).droneID <= manager.select(i+1).droneID);
+        }
+        
+        manager.sort_desc();
+        ASSERT_TRUE(manager.is_sorted_desc());
+        
+        for (int i = 0; i < num_elems - 1; i++) {
+            ASSERT_TRUE(manager.select(i).droneID >= manager.select(i+1).droneID);
+        }
+        
+        ASSERT_TRUE(manager.first->prev == NULL && manager.last->next == NULL);
+        return true;
     }
     
     // PURPOSE: insert and remove into sorted manager in ascending order
     bool test11() {
-        DronesManagerSorted manager1, manager2;
+        DronesManagerSorted manager1;
         
+        ASSERT_TRUE(manager1.get_size() == 0);
         ASSERT_TRUE(manager1.is_sorted_asc());
         
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(1)));
@@ -299,37 +325,80 @@ public:
         ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(5)));
         
         ASSERT_TRUE(manager1.is_sorted_asc());
-        //ASSERT_TRUE(manager1.insert_front(8));
-        //ASSERT_FALSE(manager1.is_sorted_asc());
-        //manager1.sort_asc();
+        ASSERT_TRUE(manager1.insert_front(8));
+        ASSERT_FALSE(manager1.is_sorted_asc());
+        manager1.sort_asc();
         ASSERT_TRUE(manager1.is_sorted_asc());
+        ASSERT_TRUE(manager1.get_size() == 5);
         
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(0)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(0)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(1)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(2)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(3)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(3)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(4)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(5)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(6)));
-        ASSERT_TRUE(manager2.insert_back(DronesManager::DroneRecord(7)));
-        
+        ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(0)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(0)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(7)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(3)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(6)));
         ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(3)));
-        ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(0)));
+        ASSERT_TRUE(manager1.insert_sorted_asc(DronesManager::DroneRecord(10)));
+        
+        ASSERT_TRUE(manager1.get_size() == 12);
+        ASSERT_TRUE(manager1.replace(0, DronesManager::DroneRecord(9)));
+        ASSERT_FALSE(manager1.is_sorted_asc());
+        manager1.sort_asc();
+        ASSERT_TRUE(manager1.is_sorted_asc());
+        
+        ASSERT_TRUE(manager1.remove_front());
+        ASSERT_TRUE(manager1.remove_front());
+        ASSERT_TRUE(manager1.remove_back());
+        ASSERT_TRUE(manager1.remove(3));
+        ASSERT_TRUE(manager1.remove(7));
+        ASSERT_TRUE(manager1.get_size() == 7);
+        ASSERT_TRUE(manager1.is_sorted_asc());
         
         return true;
     }
     
     // PURPOSE: insert and remove into sorted manager in descending order
     bool test12() {
-        return false;
+        DronesManagerSorted manager1;
+        
+        ASSERT_TRUE(manager1.get_size() == 0);
+        ASSERT_TRUE(manager1.is_sorted_asc());
+        
+        ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(5)));
+        ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(4)));
+        ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(2)));
+        ASSERT_TRUE(manager1.insert_back(DronesManager::DroneRecord(1)));
+        
+        ASSERT_TRUE(manager1.is_sorted_desc());
+        ASSERT_TRUE(manager1.insert_back(8));
+        ASSERT_FALSE(manager1.is_sorted_desc());
+        manager1.sort_desc();
+        ASSERT_TRUE(manager1.is_sorted_desc());
+        ASSERT_TRUE(manager1.get_size() == 5);
+        
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(0)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(0)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(7)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(3)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(6)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(3)));
+        ASSERT_TRUE(manager1.insert_sorted_desc(DronesManager::DroneRecord(10)));
+        
+        ASSERT_TRUE(manager1.get_size() == 12);
+        ASSERT_TRUE(manager1.replace(5, DronesManager::DroneRecord(9)));
+        ASSERT_FALSE(manager1.is_sorted_desc());
+        manager1.sort_desc();
+        ASSERT_TRUE(manager1.is_sorted_desc());
+        
+        ASSERT_TRUE(manager1.remove_front());
+        ASSERT_TRUE(manager1.remove_front());
+        ASSERT_TRUE(manager1.remove_back());
+        ASSERT_TRUE(manager1.remove(3));
+        ASSERT_TRUE(manager1.remove(7));
+        ASSERT_TRUE(manager1.get_size() == 7);
+        ASSERT_TRUE(manager1.is_sorted_desc());
+        
+        return true;
     }
 };
-
 
 #endif
