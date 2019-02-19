@@ -254,9 +254,7 @@ bool DronesManager::reverse_list() {
 }
 
 bool DronesManagerSorted::is_sorted_asc() const {
-    if (first == NULL)
-        return false;
-    if (size == 1)
+    if (first == NULL || size == 1)
         return true;
     DroneRecord* current = first->next;
     while (current != NULL){
@@ -268,9 +266,7 @@ bool DronesManagerSorted::is_sorted_asc() const {
 }
 
 bool DronesManagerSorted::is_sorted_desc() const {
-    if (first == NULL)
-        return false;
-    if (size == 1)
+    if (first == NULL || size == 1)
         return true;
     DroneRecord* current = last->prev;
     while (current != NULL){
@@ -284,23 +280,15 @@ bool DronesManagerSorted::is_sorted_desc() const {
 bool DronesManagerSorted::insert_sorted_asc(DroneRecord val) {
     if (!is_sorted_asc())
         return false;
-    if (first == NULL || first->droneID <= val.droneID)
+    if (first == NULL || first->droneID >= val.droneID)
         return (insert_front(val));
-    if (last->droneID >= val.droneID)
+    if (last->droneID <= val.droneID)
         return (insert_back(val));
-    DroneRecord* before = last;
-    bool placed = false;
-    while(before != NULL){
-        if (before->droneID <= val.droneID){
-            before->next->prev = new DroneRecord(val);
-            before->next->prev->next = before->next;
-            before->next->prev->prev = before;
-            before->next = before->next->prev;
-            return true;
-        }
-        before = before->prev;
+    DroneRecord* before = first;
+    while(before != NULL && before->droneID < val.droneID){
+        before = before->next;
     }
-    return false;
+    return insert(val, search(*before));
 }
 
 bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
@@ -318,6 +306,7 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
             before->next->prev->next = before->next;
             before->next->prev->prev = before;
             before->next = before->next->prev;
+            size++;
             return true;
         }
         before = before->prev;
