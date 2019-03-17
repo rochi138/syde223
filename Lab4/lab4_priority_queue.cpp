@@ -39,6 +39,14 @@ bool PriorityQueue::full() const {
 
 // PURPOSE: Prints the contents of the priority queue; format not specified
 void PriorityQueue::print() const {
+	if (!size){
+		cout<<"No items in queue"<<endl;
+		return;
+	}
+	cout<<"Task #\t"<<"Priority\t"<<"Description"<<endl;
+	for (int i = 0; i < size; ++i){
+		cout<<i+1<<"\t"<<heap[i]->priority<<"\t\t"<<heap[i]->description<<endl;		
+	}
 }
 
 // PURPOSE: Returns the max element of the priority queue without removing it
