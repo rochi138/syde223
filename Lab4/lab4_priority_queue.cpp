@@ -48,6 +48,7 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 		return TaskItem(-1, "N/A");
 	TaskItem* max = heap[0];
 	for (int i = 1; i < size; ++i){
+		//compares priorities and changes if higher
 		if ( max->priority < heap[i]->priority )
 			max = heap[i];
 	}
@@ -61,6 +62,7 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 bool PriorityQueue::enqueue( TaskItem val ) {
 	if (size == capacity)
 		return false;
+	//inserts val if there is space
 	heap[size] = new TaskItem(val);
 	++size;
 	return true;
@@ -74,11 +76,13 @@ bool PriorityQueue::dequeue() {
 	if (!size)
 		return false;
 	int max = 0;
+	//finds index of max priority TaskItem
 	for (int i = 1; i < size; ++i){
 		if ( heap[max]->priority < heap[i]->priority )
 			max = i;
 	}
 	delete heap[max];
+	//moves over items
 	for (int i = max; i < size-1; ++i){
 		heap[i] = heap[i+1];
 	}
