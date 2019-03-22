@@ -55,9 +55,9 @@ unsigned int BinarySearchTree::height() const {
 void BinarySearchTree::print() const {
 	cout<<endl<<endl<<endl<<endl<<endl<<"see"<<endl;
 	if (!root) {
-    	cout<<""<<endl;
+    	cout<<"Empty"<<endl;
+    	return;
     }    
-
 	stringstream ss;
 	queue<BinarySearchTree::TaskItem*> node_queue;
 	node_queue.push(root);
@@ -75,7 +75,7 @@ void BinarySearchTree::print() const {
     
 	string level_order_str = ss.str();
 
-	cout<<level_order_str.substr(0, level_order_str.size() - 1)<<endl;
+	cout<<level_order_str.substr(0, level_order_str.size() - 1)<<endl;	
 }
 
 // PURPOSE: Returns true if a node with the value val exists in the tree	
@@ -145,27 +145,46 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 	cout<<"remove "<<val.priority<<endl;
-//	if (!root){
-//		return false;
-//	}
-//	bool deleted = false;
-//	TaskItem* parent = root;
-//	TaskItem* grandparent = NULL;
-//	while(!deleted){
-//		if (parent == NULL)
-//			return false;
-//		if (val.priority == parent->priority){
-//			delete parent;
-//			parent = 
-//			deleted = true;
-//		}
-//		grandparent = parent;
-//		if (val.priority < parent->priority){
-//			parent = parent->left;
-//		} else {
-//			parent = parent->right;
-//		}
-//	}
-//	return true;
+	if (!root){
+		return false;
+	}
+	TaskItem* parent = root;
+	TaskItem* grandparent = NULL;
+	while(parent){
+		if (parent == NULL)
+			return false;
+		if (val.priority == parent->priority){
+			TaskItem* replacement = parent->right;
+			if (replacement){
+				while (replacement->left){
+					replacement = replacement->left;
+				}	
+				replacement->left = parent->left;
+			}
+			else
+				replacement = parent->left;
+			if (grandparent){
+				if (parent == grandparent->left)
+					grandparent->left = replacement;
+				else 
+					grandparent->right = replacement;
+			}
+			if (replacement && parent->right){
+				while (replacement->right){
+					replacement = replacement->right;
+				}
+				replacement->right = parent->right;
+			}
+			delete parent;
+			--size;
+			return true;
+		}
+		grandparent = parent;
+		if (val.priority < parent->priority){
+			parent = parent->left;
+		} else {
+			parent = parent->right;
+		}
+	}
 	return false;
 }
