@@ -196,7 +196,7 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 				//connects replacement to parent->left
 				replacement->left = parent->left;
 				//deletes previous connection to replacement
-				if (replacement->priority == replacementParent->left->priority)
+				if (replacementParent->left && replacement->priority == replacementParent->left->priority)
 					replacementParent->left = NULL;
 				else
 					replacementParent->right = NULL;
