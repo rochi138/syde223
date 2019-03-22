@@ -93,7 +93,7 @@ bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
 			parent = parent->right;
 		}
 	}
-	return true;
+	return false;
 }
 
 // PURPOSE: Optional helper function that returns a pointer to the root node
