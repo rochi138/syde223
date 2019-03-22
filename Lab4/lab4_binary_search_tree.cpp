@@ -155,11 +155,17 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 			return false;
 		if (val.priority == parent->priority){
 			TaskItem* replacement = parent->right;
+			TaskItem* replacementParent = parent;
 			if (replacement){
 				while (replacement->left){
+					replacementParent = replacement;
 					replacement = replacement->left;
 				}	
 				replacement->left = parent->left;
+				if (replacement->priority == replacementParent->left->priority)
+					replacementParent->left = NULL;
+				else
+					replacementParent->right = NULL;
 			}
 			else
 				replacement = parent->left;
@@ -169,7 +175,9 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 				else 
 					grandparent->right = replacement;
 			}
-			if (replacement && parent->right){
+			else
+				root = replacement;
+			if (parent->right && replacement != parent->right){
 				while (replacement->right){
 					replacement = replacement->right;
 				}
