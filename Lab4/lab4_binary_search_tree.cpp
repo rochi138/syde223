@@ -48,12 +48,31 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
 
 // PURPOSE: Returns the tree height
 unsigned int BinarySearchTree::height() const {
-	return 0;
+	if (!root) {
+    	return 0;
+    }
+    int height = -1;
+	queue<BinarySearchTree::TaskItem*> node_queue;
+	node_queue.push(root);
+	while (!node_queue.empty()) {
+		int size = node_queue.size();
+		while(size--){
+			BinarySearchTree::TaskItem* cur_node = node_queue.front();
+			node_queue.pop();
+			if (cur_node->left) {
+				node_queue.push(cur_node->left);
+			}
+			if (cur_node->right) {
+				node_queue.push(cur_node->right);
+			}	
+		}
+		++height;
+	}
+	return height;
 }
 
 // PURPOSE: Prints the contents of the tree; format not specified
 void BinarySearchTree::print() const {
-	cout<<endl<<endl<<endl<<endl<<endl<<"see"<<endl;
 	if (!root) {
     	cout<<"Empty"<<endl;
     	return;
@@ -114,7 +133,6 @@ int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
-	cout<<"insert "<<val.priority<<endl;
 	if (!root){
 		root = new TaskItem(val);
 		++size;
@@ -144,7 +162,6 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
-	cout<<"remove "<<val.priority<<endl;
 	if (!root){
 		return false;
 	}
