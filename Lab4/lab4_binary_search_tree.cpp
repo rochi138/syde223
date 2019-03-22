@@ -25,13 +25,25 @@ unsigned int BinarySearchTree::get_size() const {
 // PURPOSE: Returns the maximum value of a node in the tree
 // if the tree is empty, it returns (-1, "N/A")
 BinarySearchTree::TaskItem BinarySearchTree::max() const {
-	return BinarySearchTree::TaskItem(-1, "N/A");
+	if (!root)
+		return BinarySearchTree::TaskItem(-1, "N/A");
+	TaskItem* parent = root;
+	while (parent->right){
+		parent = parent->right;
+	}
+	return *parent;
 }
 
 // PURPOSE: Returns the minimum value of a node in the tree
 // if the tree is empty, it returns (-1, "N/A")
 BinarySearchTree::TaskItem BinarySearchTree::min() const {
-	return BinarySearchTree::TaskItem(-1, "N/A");
+	if (!root)
+		return BinarySearchTree::TaskItem(-1, "N/A");
+	TaskItem* parent = root;
+	while (parent->left){
+		parent = parent->left;
+	}
+	return *parent;
 }
 
 // PURPOSE: Returns the tree height
@@ -69,7 +81,19 @@ void BinarySearchTree::print() const {
 // PURPOSE: Returns true if a node with the value val exists in the tree	
 // otherwise, returns false
 bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
-	return false;
+	if (!root)
+		return false;
+	TaskItem* parent = root;
+	while(parent){
+		if (val.priority == parent->priority)
+			return true;
+		if (val.priority < parent->priority){
+			parent = parent->left;
+		} else {
+			parent = parent->right;
+		}
+	}
+	return true;
 }
 
 // PURPOSE: Optional helper function that returns a pointer to the root node
@@ -90,23 +114,15 @@ int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
-	//cout<<val.priority<<endl;
-	if (root == NULL){
+	cout<<"insert "<<val.priority<<endl;
+	if (!root){
 		root = new TaskItem(val);
+		++size;
 		return true;
 	}
-	bool placed = false;
 	TaskItem* parent = root;
 	TaskItem* grandparent = NULL;
-	while(!placed){
-		if (parent == NULL){
-			parent = new TaskItem(val);
-			if (parent->priority > grandparent->priority)
-				grandparent->right = parent;
-			else
-				grandparent->left = parent;
-			placed = true;
-		}
+	while(parent){
 		if (val.priority == parent->priority)
 			return false;
 		grandparent = parent;
@@ -116,12 +132,40 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 			parent = parent->right;
 		}
 	}
-	//cout<<val.priority<<endl;
+	parent = new TaskItem(val);
+	if (parent->priority > grandparent->priority)
+		grandparent->right = parent;
+	else
+		grandparent->left = parent;
+	++size;
     return true;
 }
 
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
-    return false;
+	cout<<"remove "<<val.priority<<endl;
+//	if (!root){
+//		return false;
+//	}
+//	bool deleted = false;
+//	TaskItem* parent = root;
+//	TaskItem* grandparent = NULL;
+//	while(!deleted){
+//		if (parent == NULL)
+//			return false;
+//		if (val.priority == parent->priority){
+//			delete parent;
+//			parent = 
+//			deleted = true;
+//		}
+//		grandparent = parent;
+//		if (val.priority < parent->priority){
+//			parent = parent->left;
+//		} else {
+//			parent = parent->right;
+//		}
+//	}
+//	return true;
+	return false;
 }
