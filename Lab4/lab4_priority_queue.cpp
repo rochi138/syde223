@@ -24,7 +24,7 @@ unsigned int PriorityQueue::get_size() const {
 
 // PURPOSE: Returns true if the priority queue is empty; false, otherwise
 bool PriorityQueue::empty() const {
-	return size;
+	return !size;
 }
 
 // PURPOSE: Returns true if the priority queue is full; false, otherwise
@@ -101,7 +101,7 @@ bool PriorityQueue::dequeue() {
         unsigned int largest, left, right;
         
         // Sort heap down starting with root
-        while (i <= size){
+        while (1){
             largest = i;
             left = 2*i;
             right = 2*i + 1;
