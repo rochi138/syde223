@@ -1,7 +1,7 @@
-
+// Robyn Ching 20719829
+// Chris Staykov 20717876
+// Jozef Brudnicki 20723332
 #include "lab4_tests.hpp"
-
-using namespace std;
 
 // PURPOSE: Returns the test result
 string get_status_str(bool status) {

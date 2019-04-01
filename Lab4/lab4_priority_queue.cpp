@@ -1,4 +1,6 @@
-
+// Robyn Ching 20719829
+// Chris Staykov 20717876
+// Jozef Brudnicki 20723332
 #include "lab4_priority_queue.hpp"
 
 // PURPOSE: Parametric constructor 

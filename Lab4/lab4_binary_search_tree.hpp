@@ -1,3 +1,6 @@
+// Robyn Ching 20719829
+// Chris Staykov 20717876
+// Jozef Brudnicki 20723332
 #ifndef LAB4_BINARY_SEARCH_TREE_HPP
 #define LAB4_BINARY_SEARCH_TREE_HPP
 

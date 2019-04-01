@@ -1,4 +1,6 @@
-
+// Robyn Ching 20719829
+// Chris Staykov 20717876
+// Jozef Brudnicki 20723332
 #include "lab4_binary_search_tree.hpp"
 
 // PURPOSE: Default/empty constructor
@@ -11,7 +13,8 @@ BinarySearchTree::BinarySearchTree() {
 BinarySearchTree::~BinarySearchTree() {
 	if (!root)
     	return;
-	//similar code to print(); runs through every node
+    
+	// Goes through every node
 	queue<BinarySearchTree::TaskItem*> node_queue;
 	node_queue.push(root);
 	while (!node_queue.empty()) {
@@ -35,6 +38,7 @@ unsigned int BinarySearchTree::get_size() const {
 BinarySearchTree::TaskItem BinarySearchTree::max() const {
 	if (!root)
 		return BinarySearchTree::TaskItem(-1, "N/A");
+    
 	TaskItem* parent = root;
 	//since systematic storage, just keep going right
 	while (parent->right)
@@ -47,6 +51,7 @@ BinarySearchTree::TaskItem BinarySearchTree::max() const {
 BinarySearchTree::TaskItem BinarySearchTree::min() const {
 	if (!root)
 		return BinarySearchTree::TaskItem(-1, "N/A");
+    
 	TaskItem* parent = root;
 	//since systematic storage; just keep going left
 	while (parent->left)
@@ -58,13 +63,15 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
 unsigned int BinarySearchTree::height() const {
 	if (!root)
     	return 0;
+    
     int height = -1;
+    
     //similar code to print()
 	queue<BinarySearchTree::TaskItem*> node_queue;
 	node_queue.push(root);
 	//checks if node_queue (which stores the next level) is empty
 	while (!node_queue.empty()) {
-		int size = node_queue.size();
+		unsigned long size = node_queue.size();
 		//loops for an entire "level"
 		while(size--){
 			BinarySearchTree::TaskItem* cur_node = node_queue.front();
@@ -83,7 +90,7 @@ unsigned int BinarySearchTree::height() const {
 
 // PURPOSE: Prints the contents of the tree; format not specified
 void BinarySearchTree::print() const {
-	//This code is basically from the test level_order code
+    // This code is similar to code from test: level_order
 	if (!root) {
     	cout<<"Empty"<<endl;
     	return;
@@ -111,11 +118,14 @@ void BinarySearchTree::print() const {
 bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
 	if (!root)
 		return false;
+    
 	TaskItem* parent = root;
-	//runs until found or parent is NULL
+    
+	// runs until found or parent is NULL
+    // assumption: two tasks cannot have the same priority int
 	while(parent){
 		if (val.priority == parent->priority)
-			return true;
+			return val == *parent;
 		if (val.priority < parent->priority)
 			parent = parent->left;
 		else 
@@ -142,15 +152,18 @@ int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
-	//new root
+	
+    // Empty tree, new root
 	if (!root){
 		root = new TaskItem(val);
 		++size;
 		return true;
 	}
+    
 	TaskItem* parent = root;
 	TaskItem* grandparent = NULL;
-	//loops until appropriate spot is found
+    
+	// Loops until appropriate spot is found
 	while(parent){
 		if (val.priority == parent->priority)
 			return false;
@@ -160,12 +173,17 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 		else
 			parent = parent->right;
 	}
-	//creates and adds new TaskItem accordingly
+	// Creates and adds new TaskItem accordingly
 	parent = new TaskItem(val);
+    parent->left = NULL;
+    parent->right = NULL;
+    
 	if (parent->priority > grandparent->priority)
 		grandparent->right = parent;
 	else
 		grandparent->left = parent;
+    
+    // Increase size
 	++size;
     return true;
 }
@@ -175,9 +193,11 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 	if (!root)
 		return false;
+    
 	TaskItem* parent = root;
 	TaskItem* grandparent = NULL;
-	//loops until parent is NULL; aka when value is not found
+    
+	// Loops until parent is NULL (when value is not found)
 	while(parent){
 		if (val.priority == parent->priority){
 			TaskItem* replacement = parent->right;
@@ -220,7 +240,7 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 			--size;
 			return true;
 		}
-		//if parent isn't correct value
+		// If parent isn't correct value
 		grandparent = parent;
 		if (val.priority < parent->priority)
 			parent = parent->left;

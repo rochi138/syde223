@@ -1,3 +1,6 @@
+// Robyn Ching 20719829
+// Chris Staykov 20717876
+// Jozef Brudnicki 20723332
 #ifndef LAB4_TESTS_HPP
 #define LAB4_TESTS_HPP
 
@@ -7,6 +10,7 @@
 #include <algorithm>
 #include <sstream>
 #include <queue>
+#include <iostream>
 
 #include "lab4_priority_queue.hpp"
 #include "lab4_binary_search_tree.hpp"
