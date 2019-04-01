@@ -1,9 +1,5 @@
-#include <iostream>
-#include "lab4_binary_search_tree.hpp"
-#include <sstream>
-#include <queue>
 
-using namespace std;
+#include "lab4_binary_search_tree.hpp"
 
 // PURPOSE: Default/empty constructor
 BinarySearchTree::BinarySearchTree() {

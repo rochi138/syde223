@@ -1,8 +1,10 @@
 #ifndef LAB4_BINARY_SEARCH_TREE_HPP
 #define LAB4_BINARY_SEARCH_TREE_HPP
 
+#include <iostream>
 #include <string>
-
+#include <sstream>
+#include <queue>
 using namespace std;
 
 // PURPOSE: Models a Binary Search Tree of Task Items

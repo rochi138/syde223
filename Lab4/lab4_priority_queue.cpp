@@ -1,7 +1,5 @@
-#include<iostream>
-#include "lab4_priority_queue.hpp"
 
-using namespace std;
+#include "lab4_priority_queue.hpp"
 
 // PURPOSE: Parametric constructor 
 // initializes heap to an array of (n_capacity + 1) elements
